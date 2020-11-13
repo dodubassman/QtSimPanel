@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>assets/altimeter/100ft_needle.svg</file>
+        <file>assets/altimeter/1000ft_needle.svg</file>
+        <file>assets/altimeter/10000ft_needle.svg</file>
+        <file>assets/altimeter/pressure_cog.svg</file>
+        <file>assets/altimeter/values_cog.svg</file>
+        <file>qml/gauges/Altimeter.qml</file>
+        <file>qml/gauges/VerticalSpeed.qml</file>
+        <file>assets/vertical_speed/needle.svg</file>
+        <file>assets/vertical_speed/background.svg</file>
+        <file>assets/airspeed_indicator/background.svg</file>
+        <file>assets/airspeed_indicator/needle.svg</file>
+        <file>qml/gauges/Airspeed.qml</file>
+        <file>qml/gauges/TurnCoordinator.qml</file>
+        <file>assets/turn_coordinator/aircraft.svg</file>
+        <file>assets/turn_coordinator/background.svg</file>
+        <file>assets/turn_coordinator/background2.svg</file>
+        <file>assets/turn_coordinator/flag.svg</file>
+        <file>assets/turn_coordinator/slip_indicator.svg</file>
+        <file>assets/turn_coordinator/source_file.svg</file>
+        <file>assets/turn_coordinator/source_file2.svg</file>
+        <file>qml/Panel.qml</file>
+    </qresource>
+</RCC>
