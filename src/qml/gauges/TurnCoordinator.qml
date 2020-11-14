@@ -8,10 +8,10 @@ Item {
     height: 256
 
     property int slipDeviation: 0
-    property int turnRoll: 0
+    property int roll: 0
 
-    onTurnRollChanged: {
-        aircraftLayer.rotation = turnRoll > 60 ? 60 : turnRoll;
+    onRollChanged: {
+        aircraftLayer.rotation = roll;
     }
 
     onSlipDeviationChanged: {

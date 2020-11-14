@@ -30,9 +30,19 @@ Item {
     TurnCoordinator {
         id: turnCoordinator
         x: 780
-        turnRoll: 60
+        roll: 0
         slipDeviation: 0
     }
+
+    ArtificialHorizon {
+        id: artificialHorizon
+        x: 260
+        y: 260
+        roll: 0
+        pitch: 0
+    }
+
+
 
 
     Button {
@@ -44,8 +54,11 @@ Item {
             verticalspeed.rate = Math.floor(Math.random()*4000 - 2000)
             airspeed.tas = Math.floor(Math.random()*200)
             turnCoordinator.slipDeviation = Math.floor(Math.random()*200 - 100)
-            turnCoordinator.turnRoll = Math.floor(Math.random()*120 - 60)
 
+            var roll = Math.floor(Math.random()*120 - 60)
+            turnCoordinator.roll = roll
+            artificialHorizon.roll = roll
+            artificialHorizon.pitch = Math.random()*90 - 45
         }
 
     }

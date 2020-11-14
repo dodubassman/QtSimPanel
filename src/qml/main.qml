@@ -21,7 +21,7 @@ Window {
         anchors.right: parent.right
         Text {
             id: title
-            text: qsTr("OpenSimPanel")
+            text: qsTr("QtSimPanel")
             font.family: "Sans";
             font.pointSize: 25;
             color: "white";
