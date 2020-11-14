@@ -20,7 +20,7 @@ Item {
 
     Image {
         id: pressureLayer
-        source: "../../assets/altimeter/pressure_cog.svg"
+        source: "../../assets/altimeter/pressure_cog.png"
         anchors.fill: parent
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
@@ -30,13 +30,13 @@ Item {
 
     Image {
         id: feetsLayer
-        source: "../../assets/altimeter/values_cog.svg"
+        source: "../../assets/altimeter/values_cog.png"
         anchors.fill: parent
     }
 
     Image {
         id: tenThousandFtLayer
-        source: "../../assets/altimeter/10000ft_needle.svg"
+        source: "../../assets/altimeter/10000ft_needle.png"
         anchors.fill: parent
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
@@ -47,7 +47,7 @@ Item {
 
     Image {
         id: thousandFtLayer
-        source: "../../assets/altimeter/1000ft_needle.svg"
+        source: "../../assets/altimeter/1000ft_needle.png"
         anchors.fill: parent
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
@@ -56,7 +56,7 @@ Item {
 
     Image {
         id: hundredFtLayer
-        source: "../../assets/altimeter/100ft_needle.svg"
+        source: "../../assets/altimeter/100ft_needle.png"
         anchors.fill: parent
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }

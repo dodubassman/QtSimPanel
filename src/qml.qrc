@@ -22,5 +22,16 @@
         <file>assets/turn_coordinator/source_file.svg</file>
         <file>assets/turn_coordinator/source_file2.svg</file>
         <file>qml/Panel.qml</file>
+        <file>assets/altimeter/1000ft_needle.png</file>
+        <file>assets/altimeter/100ft_needle.png</file>
+        <file>assets/altimeter/10000ft_needle.png</file>
+        <file>assets/altimeter/pressure_cog.png</file>
+        <file>assets/altimeter/values_cog.png</file>
+        <file>qml/gauges/ArtificialHorizon.qml</file>
+        <file>assets/artificial_horizon/background.png</file>
+        <file>assets/artificial_horizon/flag.png</file>
+        <file>assets/artificial_horizon/foreground.png</file>
+        <file>assets/artificial_horizon/pitchscale.png</file>
+        <file>assets/artificial_horizon/rolldial.png</file>
     </qresource>
 </RCC>
