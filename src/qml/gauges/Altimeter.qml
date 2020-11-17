@@ -8,20 +8,14 @@ Item {
     height: 256
 
     property int altitude: 0
-    property int pressure: 1013
-
-    onAltitudeChanged: {
-        tenThousandFtLayer.rotation = altitude/100000*360;
-        thousandFtLayer.rotation = altitude/10000*360;
-        hundredFtLayer.rotation = altitude/1000*360;
-        pressureLayer.rotation = -((pressure-950)/120*360)
-    }
+    property int pressure: 1022 // 946 --> 1050
 
 
     Image {
         id: pressureLayer
         source: "../../assets/altimeter/pressure_cog.png"
         anchors.fill: parent
+        rotation: -((pressure-950)/120*360)
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
         }
@@ -38,6 +32,7 @@ Item {
         id: tenThousandFtLayer
         source: "../../assets/altimeter/10000ft_needle.png"
         anchors.fill: parent
+        rotation: altitude/100000*360
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
         }
@@ -49,6 +44,7 @@ Item {
         id: thousandFtLayer
         source: "../../assets/altimeter/1000ft_needle.png"
         anchors.fill: parent
+        rotation: altitude/10000*360
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
         }
@@ -58,6 +54,7 @@ Item {
         id: hundredFtLayer
         source: "../../assets/altimeter/100ft_needle.png"
         anchors.fill: parent
+        rotation: altitude/1000*360
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
         }

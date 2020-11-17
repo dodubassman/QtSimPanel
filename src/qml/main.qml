@@ -6,7 +6,7 @@ import "gauges"
 
 Window {
 
-    visibility: Window.FullScreen
+    //visibility: Window.FullScreen
     color: "#000000"
     visible: true
     width: 800
@@ -19,6 +19,7 @@ Window {
         height: 300
         visible: qSimPanel.areInstructionsVisible
         anchors.right: parent.right
+        anchors.margins: 100
         Text {
             id: title
             text: qsTr("QtSimPanel")

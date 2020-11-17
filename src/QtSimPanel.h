@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QGuiApplication>
 #include <QSettings>
+#include <datastore.h>
 
 class QtSimPanel : public QGuiApplication
 {
@@ -15,7 +16,7 @@ class QtSimPanel : public QGuiApplication
     Q_PROPERTY(float panelScale MEMBER m_d_panelScale NOTIFY panelScaleChanged())
 
 public:
-    QtSimPanel(int argc, char** argv);
+    explicit QtSimPanel(int argc, char** argv);
     virtual ~QtSimPanel();
 
     void startApp();
@@ -42,6 +43,7 @@ public slots:
 private:
     QQmlApplicationEngine m_QmlEngine;
     QSettings m_settings;
+    DataStore* m_dataStore;
     int m_i_panelPositionX = 100;
     int m_i_panelPositionY = 100;
     double m_d_panelScale = 1;

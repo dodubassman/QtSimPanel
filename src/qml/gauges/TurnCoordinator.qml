@@ -10,65 +10,36 @@ Item {
     property int slipDeviation: 0
     property int roll: 0
 
-    onRollChanged: {
-        aircraftLayer.rotation = roll;
-    }
-
-    onSlipDeviationChanged: {
-        var rotation = slipDeviation/100*12
-        slipLayer.rotation = rotation
-        slipBall.rotation = - rotation
-    }
-
     Image {
         id: background
-        source: "../../assets/turn_coordinator/background.svg"
+        source: "../../assets/turn_coordinator/turnslip_disc.png"
         anchors.fill: parent
     }
 
-    Item {
-        id: slipLayer
-        width: 31;
-        anchors.bottom: background.bottom
-        anchors.top: background.top
-        anchors.topMargin: -150
-        anchors.horizontalCenter: background.horizontalCenter
-        anchors.bottomMargin: 45
-        transformOrigin: Item.Top
-        Behavior on rotation {
-            RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
-        }
-        Image {
-            id: slipBall
-            anchors.bottom: slipLayer.bottom
-            width: 31; height: 48
-            source: "../../assets/turn_coordinator/slip_indicator.svg"
-            Behavior on rotation {
-            RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
-        }
+    Image {
+        id: slipBall
+        source: "../../assets/turn_coordinator/ball.png"
+        x: slipDeviation/100*60
+        width: 256
+        height: 256
+        Behavior on x {
+            NumberAnimation { duration: 500 }
         }
     }
 
     Image {
         id: background2
-        source: "../../assets/turn_coordinator/background2.svg"
+        source: "../../assets/turn_coordinator/turnslip.png"
         anchors.fill: parent
     }
 
     Image {
         id: aircraftLayer
-        source: "../../assets/turn_coordinator/aircraft.svg"
+        source: "../../assets/turn_coordinator/turnslip_planeshape.png"
         anchors.fill: parent
+        rotation: roll
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
         }
-
-    }
-
-    Image {
-        id: flagLayer
-        visible: false
-        source: "../../assets/turn_coordinator/flag.svg"
-        anchors.fill: parent
     }
 }

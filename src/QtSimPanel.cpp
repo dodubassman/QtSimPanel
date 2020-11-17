@@ -1,4 +1,5 @@
 #include "QtSimPanel.h"
+#include "udpclient.h"
 #include <KeyReceiver.h>
 #include <QQmlContext>
 #include <QDebug>
@@ -7,10 +8,12 @@
 QtSimPanel::QtSimPanel(int argc, char** argv): QGuiApplication(argc, argv),
    m_settings(QDir::currentPath()+"/settings.ini", QSettings::IniFormat)
 {
+    m_dataStore = new DataStore();
 }
 
 QtSimPanel::~QtSimPanel()
 {
+    delete m_dataStore;
     exit();
 }
 
@@ -23,8 +26,10 @@ void QtSimPanel::startApp()
 
     // Enable Key strike handleing
     KeyReceiver* keyReceiver = new KeyReceiver(this);
-
     installEventFilter(keyReceiver);
+
+    UdpClient udpClient();
+
 
     exec();
 }

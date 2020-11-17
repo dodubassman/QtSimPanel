@@ -46,9 +46,11 @@ Item {
             }
         }
 
-        needleLayer.rotation  = x >= 20
+        var rotation  = x >= 20
                 ? 175 // Max value 175
                 : y0 + (x-x0)*((y1-y0)/(x1-x0)); // See en.wikipedia.org/wiki/Linear_interpolation
+
+        needleLayer.rotation = rotation - 90 //png file is oriented 12:00
     }
 
 
@@ -60,7 +62,8 @@ Item {
 
     Image {
         id: needleLayer
-        source: "../../assets/vertical_speed/needle.svg"
+        source: "../../assets/vertical_speed/verticalspeed-dial.png"
+        rotation: -90 //png file is oriented 12:00
         anchors.fill: parent
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }

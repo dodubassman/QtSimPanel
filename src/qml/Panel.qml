@@ -9,38 +9,45 @@ Item {
     width: 800
     height: 600
 
-    Altimeter {
-        id: altimeter
-        altitude: 0
-        pressure: 1013
-    }
-
-    VerticalSpeed {
-        x: 260
-        id: verticalspeed
-        rate: 0
-    }
 
     Airspeed {
-        x: 520
         id: airspeed
         tas: 0
     }
 
-    TurnCoordinator {
-        id: turnCoordinator
-        x: 780
-        roll: 0
-        slipDeviation: 0
-    }
 
     ArtificialHorizon {
         id: artificialHorizon
-        x: 260
-        y: 260
-        roll: 0
-        pitch: 0
+        x: 285
     }
+
+    Altimeter {
+        id: altimeter
+        x: 570
+    }
+
+    TurnCoordinator {
+        id: turnCoordinator
+        y: 302
+    }
+
+
+    HeadingIndicator {
+        id: headingIndicator
+        x: 285
+        y: 302
+    }
+
+
+    VerticalSpeed {
+        id: verticalspeed
+        x: 570
+        y: 302
+        rate: 0
+    }
+
+
+
 
 
 
@@ -50,7 +57,8 @@ Item {
         anchors.bottom: parent.bottom
         onClicked: {
             altimeter.altitude = Math.floor(Math.random()*50000)
-            altimeter.pressure = 950
+            altimeter.pressure = Math.floor(Math.random()*(1050-946)+946)
+
             verticalspeed.rate = Math.floor(Math.random()*4000 - 2000)
             airspeed.tas = Math.floor(Math.random()*200)
             turnCoordinator.slipDeviation = Math.floor(Math.random()*200 - 100)
@@ -59,6 +67,8 @@ Item {
             turnCoordinator.roll = roll
             artificialHorizon.roll = roll
             artificialHorizon.pitch = Math.random()*90 - 45
+
+            headingIndicator.heading = Math.floor(Math.random()*360)
         }
 
     }
