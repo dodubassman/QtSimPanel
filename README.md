@@ -2,7 +2,7 @@
 
 External instrument panels for X-Plane (and MSF2020 soon!)
 
-OpenSimPanel will provide functional aircraft gauges and instruments to be display on a light computer or RasberryPi. It is aimed to be connected to the same network the main X-plane computer is running.
+QtSimPanel will provide functional aircraft gauges and instruments to be display on a light computer or RasberryPi. It is aimed to be connected to the same network the main X-plane computer is running.
 
 Todo list :
 
