@@ -4,6 +4,7 @@
 #include <QQmlContext>
 #include <QDebug>
 #include <QDir>
+#include <QTimer>
 
 QtSimPanel::QtSimPanel(int argc, char** argv): QGuiApplication(argc, argv),
    m_settings(QDir::currentPath()+"/settings.ini", QSettings::IniFormat)
@@ -19,6 +20,7 @@ QtSimPanel::~QtSimPanel()
 
 void QtSimPanel::startApp()
 {
+    // Load existing settings
     loadSettings();
 
     m_QmlEngine.rootContext()->setContextProperty("qSimPanel", this);
@@ -28,8 +30,12 @@ void QtSimPanel::startApp()
     KeyReceiver* keyReceiver = new KeyReceiver(this);
     installEventFilter(keyReceiver);
 
-    UdpClient udpClient();
+    // Load UDPClient with datastore
+    UdpClient udpClient(m_dataStore);
 
+    QTimer *ticker = new QTimer(this);
+    connect(ticker, SIGNAL(timeout()), this, SLOT(refreshPanelValues()));
+    ticker->start(300);
 
     exec();
 }
@@ -71,7 +77,8 @@ float QtSimPanel::getPanelScale() {
     return m_d_panelScale;
 }
 
-void QtSimPanel::loadSettings(){
+void QtSimPanel::loadSettings()
+{
     if (QFile::exists(m_settings.fileName())) {
         m_i_panelPositionX = m_settings.value("panel/x").toInt();
         m_i_panelPositionY = m_settings.value("panel/y").toInt();
@@ -80,9 +87,21 @@ void QtSimPanel::loadSettings(){
     }
 }
 
-void QtSimPanel::saveSettings(){
+void QtSimPanel::saveSettings()
+{
     m_settings.setValue("panel/x", m_i_panelPositionX);
     m_settings.setValue("panel/y", m_i_panelPositionY);
     m_settings.setValue("panel/scale", m_d_panelScale);
     m_settings.setValue("panel/instructions", m_b_areInstructionsVisibile);
+}
+
+
+void QtSimPanel::refreshPanelValues()
+{
+    m_flightData.clear();
+    m_flightData.insert("heading", m_dataStore->readData("mag_heading"));
+    m_flightData.insert("pitch", m_dataStore->readData("pitch"));
+    m_flightData.insert("roll", m_dataStore->readData("roll"));
+
+    emit flightDataChanged();
 }

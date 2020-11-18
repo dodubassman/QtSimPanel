@@ -7,8 +7,8 @@ Item {
     width: 256
     height: 256
 
-    property int pitch: 0
-    property int roll: 0
+    property real pitch: 0
+    property real roll: 0
 
     Item {
         id: rollLayer

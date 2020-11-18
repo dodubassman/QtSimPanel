@@ -7,8 +7,8 @@ Item {
     width: 256
     height: 256
 
-    property int slipDeviation: 0
-    property int roll: 0
+    property real slipDeviation: 0
+    property real roll: 0
 
     Image {
         id: background

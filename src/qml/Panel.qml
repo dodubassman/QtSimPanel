@@ -19,6 +19,8 @@ Item {
     ArtificialHorizon {
         id: artificialHorizon
         x: 285
+        roll: qSimPanel.flightData.roll
+        pitch: qSimPanel.flightData.pitch
     }
 
     Altimeter {
@@ -29,6 +31,7 @@ Item {
     TurnCoordinator {
         id: turnCoordinator
         y: 302
+        roll: qSimPanel.flightData.roll
     }
 
 
@@ -36,6 +39,7 @@ Item {
         id: headingIndicator
         x: 285
         y: 302
+        heading: qSimPanel.flightData.heading
     }
 
 

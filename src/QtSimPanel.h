@@ -14,6 +14,7 @@ class QtSimPanel : public QGuiApplication
     Q_PROPERTY(int panelPositionX MEMBER m_i_panelPositionX NOTIFY panelPositionChanged())
     Q_PROPERTY(int panelPositionY MEMBER m_i_panelPositionY NOTIFY panelPositionChanged())
     Q_PROPERTY(float panelScale MEMBER m_d_panelScale NOTIFY panelScaleChanged())
+    Q_PROPERTY(QVariantMap flightData MEMBER m_flightData NOTIFY flightDataChanged)
 
 public:
     explicit QtSimPanel(int argc, char** argv);
@@ -37,8 +38,10 @@ signals:
     void instructionVisibilityChanged();
     void panelPositionChanged();
     void panelScaleChanged();
+    void flightDataChanged();
 
 public slots:
+    void refreshPanelValues();
 
 private:
     QQmlApplicationEngine m_QmlEngine;
@@ -48,6 +51,7 @@ private:
     int m_i_panelPositionY = 100;
     double m_d_panelScale = 1;
     bool m_b_areInstructionsVisibile = true;
+    QVariantMap m_flightData;
 };
 
 #endif // QTSIMPANEL_H

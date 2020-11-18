@@ -7,8 +7,8 @@ Item {
     width: 256
     height: 256
 
-    property int altitude: 0
-    property int pressure: 1022 // 946 --> 1050
+    property real altitude: 0
+    property real pressure: 1022 // 946 --> 1050
 
 
     Image {

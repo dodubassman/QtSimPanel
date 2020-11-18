@@ -7,7 +7,7 @@ Item {
     width: 256
     height: 256
 
-    property int rate: 0
+    property real rate: 0
 
     onRateChanged: {
         // Linera interpolation

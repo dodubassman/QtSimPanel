@@ -7,7 +7,7 @@ Item {
     width: 256
     height: 256
 
-    property int tas: 0
+    property real tas: 0
 
     onTasChanged: {
         // Linera interpolation
