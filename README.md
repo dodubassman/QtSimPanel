@@ -6,8 +6,8 @@ OpenSimPanel will provide functional aircraft gauges and instruments to be displ
 
 Todo list :
 
-[] - Add the possibility to choose UDPClient interface : X-Plane / MFS2020
-[] - Add the possibility to choose among a collection of flight panels (only Basic 6 / Robin DR400 is hard coded right now)
-[] - Provide compiled files for Rapberry, Mac and windows (linux 64 only at the moment0
+- [ ] Add the possibility to choose UDPClient interface : X-Plane / MFS2020
+- [ ] Add the possibility to choose among a collection of flight panels (only Basic 6 / Robin DR400 is hard coded right now)
+- [ ] Provide compiled files for Rapberry, Mac and windows (linux 64 only at the moment0
 
 QtSimPanel is writen in C++ / QML using Qt5.
