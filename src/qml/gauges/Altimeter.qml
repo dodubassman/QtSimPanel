@@ -8,14 +8,14 @@ Item {
     height: 256
 
     property real altitude: 0
-    property real pressure: 1022 // 946 --> 1050
+    property real pressure: 29.1 // inHg
 
 
     Image {
         id: pressureLayer
         source: "../../assets/altimeter/pressure_cog.png"
         anchors.fill: parent
-        rotation: -((pressure-950)/120*360)
+        rotation: -((pressure/0.02953-950)/120*360)
         Behavior on rotation {
             RotationAnimation { duration: 500; direction: RotationAnimation.Shortest }
         }

@@ -1,16 +1,16 @@
 #ifndef DATASTORE_H
 #define DATASTORE_H
 #include <map>
-#include <string>
+#include <QString>
 
 
 class DataStore
 {
 public:
-    void writeData(std::string const, float);
-    float readData(std::string const);
+    void writeData(QString const, float);
+    float readData(QString const);
 private:
-    std::map<std::string, float> m_data;
+    std::map<QString, float> m_data;
 };
 
 #endif // DATASTORE_H

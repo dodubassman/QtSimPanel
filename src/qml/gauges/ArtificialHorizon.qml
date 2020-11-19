@@ -30,7 +30,7 @@ Item {
             source: "../../assets/artificial_horizon/pitchscale.png"
             width: 256
             height: 256
-            y: pitch
+            y: pitch*2
             Behavior on y {
                 NumberAnimation { duration: 500 }
             }

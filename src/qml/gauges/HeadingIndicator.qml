@@ -22,7 +22,7 @@ Item {
 
     Image {
         id: slipBall
-        source: "../../assets/heading_indicator/airplane_shape2.png"
+        source: "../../assets/heading_indicator/airplane_shape.png"
         anchors.fill: parent
     }
 }

@@ -19,7 +19,7 @@ Item {
     Image {
         id: slipBall
         source: "../../assets/turn_coordinator/ball.png"
-        x: slipDeviation/100*60
+        x: -slipDeviation/8*60
         width: 256
         height: 256
         Behavior on x {

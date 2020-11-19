@@ -19,6 +19,7 @@ public slots:
 private:
     QUdpSocket *m_socket;
     DataStore *m_dataStore;
+    QMap<int, QMap<int, QString>> m_dataIndex;
 };
 
 #endif // UDPCLIENT_H

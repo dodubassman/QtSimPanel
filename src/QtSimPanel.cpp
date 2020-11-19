@@ -102,6 +102,11 @@ void QtSimPanel::refreshPanelValues()
     m_flightData.insert("heading", m_dataStore->readData("mag_heading"));
     m_flightData.insert("pitch", m_dataStore->readData("pitch"));
     m_flightData.insert("roll", m_dataStore->readData("roll"));
+    m_flightData.insert("altitude_ind", m_dataStore->readData("altitude_ind"));
+    m_flightData.insert("sideslip", m_dataStore->readData("sideslip"));
+    m_flightData.insert("kt_ias", m_dataStore->readData("kt_ias"));
+    m_flightData.insert("vertical_speed", m_dataStore->readData("vertical_speed"));
+    m_flightData.insert("inhg_baro_pressure", m_dataStore->readData("inhg_baro_pressure"));
 
     emit flightDataChanged();
 }

@@ -5,6 +5,30 @@ UdpClient::UdpClient(DataStore *dataStore, QObject *parent) : QObject(parent)
     quint16 port = 49000;
     m_dataStore = dataStore;
 
+    // Index of Xplane Data in UDP packets
+    // Speeds
+    m_dataIndex[3][0] = "kt_ias";
+    m_dataIndex[3][5] = "mph_ias";
+
+    m_dataIndex[4][2] = "vertical_speed";
+
+    // Pressure
+    m_dataIndex[7][0] = "inhg_baro_pressure";
+
+    // Attitudes
+    m_dataIndex[17][0] = "pitch";
+    m_dataIndex[17][1] = "roll";
+    m_dataIndex[17][2] = "true_heading";
+    m_dataIndex[17][3] = "mag_heading";
+
+    // AoA, Sideslip, paths
+    m_dataIndex[18][7] = "sideslip";
+
+    // Altitudes
+    m_dataIndex[20][5] = "altitude_ind";
+    m_dataIndex[24][0] = "altitude_msl";
+
+
     m_socket = new QUdpSocket(this);
     m_socket->bind(port);
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(readStream()));
@@ -34,7 +58,6 @@ void UdpClient::readStream()
     // If header "DATA": Xplane is online
     if (buffer[0] == 'D' && buffer[1] == 'A' && buffer[2] == 'T' && buffer[3] == 'A')
     {
-// todo set online
         union
         {
             int num;
@@ -48,18 +71,19 @@ void UdpClient::readStream()
             unsigned startIndex = (5+i*36);
             unsigned  segmentType = buffer[startIndex];
 
-            char dataSegment[24];
-            memcpy( dataSegment, &buffer[startIndex+4], 24 );
+            char dataSegment[32];
+            memcpy( dataSegment, &buffer[startIndex+4], 32 );
 
-            // Heading
-            if (segmentType == 17)
+            // Only handle Segment known by dataIndex
+            if (!m_dataIndex[segmentType].isEmpty())
             {
 
-                // 8*4 byte in each segment
-                for (unsigned j = 0; j < 8; j++)
-                {
+                // Iterate through known values in current segment
+                QMapIterator<int, QString> i(m_dataIndex[segmentType]);
+                while (i.hasNext()) {
+                    i.next();
 
-                    int position = j*4;
+                    int position = i.key()*4;
 
                     // Convert parts to integers with "Bitwise And"
                     int a = dataSegment[0+position] & 0xFF;
@@ -75,22 +99,10 @@ void UdpClient::readStream()
                     float value = integerFloatUnion.fnum;
 
                     // Write value in datastore
-                    switch (position) {
-                    case 0:
-                        m_dataStore->writeData("pitch", value);
-                        break;
-                    case 4:
-                        m_dataStore->writeData("roll", value);
-                        break;
-                    case 8:
-                        m_dataStore->writeData("true_heading", value);
-                        break;
-                    case 12:
-                        m_dataStore->writeData("mag_heading", value);
-                        break;
-
-                    }
+                    m_dataStore->writeData(i.value(), value);
+//                    qDebug() << i.value() << " : " << value;
                 }
+
             }
         }
     }

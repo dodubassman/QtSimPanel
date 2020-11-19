@@ -7,11 +7,11 @@ Item {
     width: 256
     height: 256
 
-    property real tas: 0
+    property real ias: 0
 
-    onTasChanged: {
+    onIasChanged: {
         // Linera interpolation
-        var x = tas;
+        var x = ias;
         var x0, y0;
         var x1, y1;
 

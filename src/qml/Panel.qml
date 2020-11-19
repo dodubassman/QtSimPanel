@@ -6,32 +6,35 @@ import "gauges"
 
 Item {
 
-    width: 800
-    height: 600
+    width: 1200
+    height: 800
 
 
     Airspeed {
         id: airspeed
-        tas: 0
+        ias: qSimPanel.flightData.kt_ias ? qSimPanel.flightData.kt_ias : 0
     }
 
 
     ArtificialHorizon {
         id: artificialHorizon
         x: 285
-        roll: qSimPanel.flightData.roll
-        pitch: qSimPanel.flightData.pitch
+        roll: qSimPanel.flightData.roll ? qSimPanel.flightData.roll : 0
+        pitch: qSimPanel.flightData.pitch ? qSimPanel.flightData.pitch : 0
     }
 
     Altimeter {
         id: altimeter
         x: 570
+        altitude: qSimPanel.flightData.altitude_ind ? qSimPanel.flightData.altitude_ind : 0
+        pressure: qSimPanel.flightData.inhg_baro_pressure ? qSimPanel.flightData.inhg_baro_pressure : 29.91
     }
 
     TurnCoordinator {
         id: turnCoordinator
         y: 302
-        roll: qSimPanel.flightData.roll
+        roll: qSimPanel.flightData.roll ? qSimPanel.flightData.roll : 0
+        slipDeviation: qSimPanel.flightData.sideslip ? qSimPanel.flightData.sideslip : 0
     }
 
 
@@ -39,7 +42,7 @@ Item {
         id: headingIndicator
         x: 285
         y: 302
-        heading: qSimPanel.flightData.heading
+        heading: qSimPanel.flightData.heading ? qSimPanel.flightData.heading : 0
     }
 
 
@@ -47,33 +50,7 @@ Item {
         id: verticalspeed
         x: 570
         y: 302
-        rate: 0
+        rate: qSimPanel.flightData.vertical_speed ? qSimPanel.flightData.vertical_speed : 0
     }
 
-
-
-
-
-
-
-    Button {
-        text: "Randomize"
-        anchors.bottom: parent.bottom
-        onClicked: {
-            altimeter.altitude = Math.floor(Math.random()*50000)
-            altimeter.pressure = Math.floor(Math.random()*(1050-946)+946)
-
-            verticalspeed.rate = Math.floor(Math.random()*4000 - 2000)
-            airspeed.tas = Math.floor(Math.random()*200)
-            turnCoordinator.slipDeviation = Math.floor(Math.random()*200 - 100)
-
-            var roll = Math.floor(Math.random()*120 - 60)
-            turnCoordinator.roll = roll
-            artificialHorizon.roll = roll
-            artificialHorizon.pitch = Math.random()*90 - 45
-
-            headingIndicator.heading = Math.floor(Math.random()*360)
-        }
-
-    }
 }
