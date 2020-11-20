@@ -14,7 +14,7 @@ CONFIG += c++11
 SOURCES += main.cpp \
     QtSimPanel.cpp \
     KeyReceiver.cpp \
-    udpclient.cpp \
+    xplaneudpclient.cpp \
     datastore.cpp
 
 RESOURCES += qml.qrc
@@ -44,7 +44,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     QtSimPanel.h \
     KeyReceiver.h \
-    udpclient.h \
+    xplaneudpclient.h \
     datastore.h
 
 DESTDIR = $$PWD/../exe/bin_GNU-Linux-x86

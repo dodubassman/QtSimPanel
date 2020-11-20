@@ -1,4 +1,4 @@
-#include "udpclient.h"
+#include "xplaneudpclient.h"
 
 XplaneUdpClient::XplaneUdpClient(DataStore *dataStore, QObject *parent) : QObject(parent)
 {

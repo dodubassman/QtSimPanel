@@ -1,5 +1,5 @@
 #include "QtSimPanel.h"
-#include "udpclient.h"
+#include "xplaneudpclient.h"
 #include <KeyReceiver.h>
 #include <QQmlContext>
 #include <QDebug>
@@ -31,7 +31,7 @@ void QtSimPanel::startApp()
     installEventFilter(keyReceiver);
 
     // Load UDPClient with datastore
-    UdpClient udpClient(m_dataStore);
+    XplaneUdpClient xplaneUdpClient(m_dataStore);
 
     QTimer *ticker = new QTimer(this);
     connect(ticker, SIGNAL(timeout()), this, SLOT(refreshPanelValues()));
