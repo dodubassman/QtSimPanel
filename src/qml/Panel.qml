@@ -19,14 +19,14 @@ Item {
     ArtificialHorizon {
         id: artificialHorizon
         x: 285
-        roll: qSimPanel.flightData.roll ? qSimPanel.flightData.roll : 0
-        pitch: qSimPanel.flightData.pitch ? qSimPanel.flightData.pitch : 0
+        roll: qSimPanel.flightData.roll ? qSimPanel.flightData.roll : 25
+        pitch: qSimPanel.flightData.pitch ? qSimPanel.flightData.pitch : 10
     }
 
     Altimeter {
         id: altimeter
         x: 570
-        altitude: qSimPanel.flightData.altitude_ind ? qSimPanel.flightData.altitude_ind : 0
+        altitude: qSimPanel.flightData.altitude_ind ? qSimPanel.flightData.altitude_ind : 40
         pressure: qSimPanel.flightData.inhg_baro_pressure ? qSimPanel.flightData.inhg_baro_pressure : 29.91
     }
 
@@ -42,7 +42,7 @@ Item {
         id: headingIndicator
         x: 285
         y: 302
-        heading: qSimPanel.flightData.heading ? qSimPanel.flightData.heading : 0
+        heading: qSimPanel.flightData.vacuum_heading ? qSimPanel.flightData.vacuum_heading : 17
     }
 
 

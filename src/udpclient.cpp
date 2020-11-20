@@ -1,46 +1,35 @@
 #include "udpclient.h"
 
-UdpClient::UdpClient(DataStore *dataStore, QObject *parent) : QObject(parent)
+XplaneUdpClient::XplaneUdpClient(DataStore *dataStore, QObject *parent) : QObject(parent)
 {
     quint16 port = 49000;
     m_dataStore = dataStore;
 
-    // Index of Xplane Data in UDP packets
-    // Speeds
-    m_dataIndex[3][0] = "kt_ias";
-    m_dataIndex[3][5] = "mph_ias";
+    // Index of Xplane Data in UDP packets (DATA)
+    // m_dataIndex[<segment_index>][<data_value_index>] = "<variable_name_in_qtSimPanel>"
+    // Exple:
+    // m_dataIndex[3][5] = "mph_ias";
 
-    m_dataIndex[4][2] = "vertical_speed";
+    // Index of Xplane DataRefs in UDP packets (DREF)
+    // m_dataRefs["<uri_xplane_dataref>"] = "<variable_name_in_qtSimPanel>";
+    // Exple:
+    // m_dataRefs["sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot"] = "inhg_baro_pressure";
 
-    // Pressure
-    m_dataIndex[7][0] = "inhg_baro_pressure";
-
-    // Attitudes
-    m_dataIndex[17][0] = "pitch";
-    m_dataIndex[17][1] = "roll";
-    m_dataIndex[17][2] = "true_heading";
-    m_dataIndex[17][3] = "mag_heading";
-
-    // AoA, Sideslip, paths
-    m_dataIndex[18][7] = "sideslip";
-
-    // Altitudes
-    m_dataIndex[20][5] = "altitude_ind";
-    m_dataIndex[24][0] = "altitude_msl";
-
+    m_dataRefs["sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot"] = "inhg_baro_pressure";
+    m_dataRefs["sim/cockpit2/gauges/indicators/altitude_ft_pilot"] = "altitude_ind";
+    m_dataRefs["sim/cockpit2/gauges/indicators/sideslip_degrees"] = "sideslip";
+    m_dataRefs["sim/cockpit2/gauges/indicators/vvi_fpm_pilot"] = "vertical_speed";
+    m_dataRefs["sim/cockpit2/gauges/indicators/airspeed_kts_pilot"] = "kt_ias";
+    m_dataRefs["sim/cockpit2/gauges/indicators/pitch_vacuum_deg_pilot"] = "pitch";
+    m_dataRefs["sim/cockpit2/gauges/indicators/roll_vacuum_deg_pilot"] = "roll";
+    m_dataRefs["sim/cockpit2/gauges/indicators/heading_vacuum_deg_mag_pilot"] = "vacuum_heading";
 
     m_socket = new QUdpSocket(this);
     m_socket->bind(port);
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(readStream()));
 }
 
-// The first 4 byte are the header. if xplane send data (stuff you selected in the data output) they read, in ASCII : "DATA".
-// followed by 1 byte you can ignore
-// followed by 4 byte, but only the first of the four is important : it's the index (the stuff in the 1st column)
-// followed by 8*4 byte : they are the data. For more inforation also check "show in cockpit" in the preference so you'll now more about what the data are.
-// then you have another pack of 4 + 8*4 until the end of the datagram.
-// rince, repeat
-void UdpClient::readStream()
+void XplaneUdpClient::readStream()
 {
     const qint64 maxLength = 65536;
     char buffer[maxLength];
@@ -52,17 +41,13 @@ void UdpClient::readStream()
 
     m_socket->readDatagram(buffer, maxLength, &sender, &senderPort);
 
-    // Segments of data
-    unsigned nbSegs = (datagramSize-5)/36;
+    union { int intValue; float floatValue; } ieee754Union;
 
-    // If header "DATA": Xplane is online
-    if (buffer[0] == 'D' && buffer[1] == 'A' && buffer[2] == 'T' && buffer[3] == 'A')
+    if (buffer[0] == 'D' && buffer[1] == 'A' && buffer[2] == 'T' && buffer[3] == 'A') // Handle XPlane DATA
     {
-        union
-        {
-            int num;
-            float fnum;
-        } integerFloatUnion;
+        // Segments of data
+        unsigned nbSegs = (datagramSize-5)/36;
+
 
         // For each xplane dataset segment
         for (unsigned i = 0; i < nbSegs; i++)
@@ -77,15 +62,14 @@ void UdpClient::readStream()
             // Only handle Segment known by dataIndex
             if (!m_dataIndex[segmentType].isEmpty())
             {
-
                 // Iterate through known values in current segment
                 QMapIterator<int, QString> i(m_dataIndex[segmentType]);
                 while (i.hasNext()) {
                     i.next();
 
-                    int position = i.key()*4;
 
                     // Convert parts to integers with "Bitwise And"
+                    int position = i.key()*4;
                     int a = dataSegment[0+position] & 0xFF;
                     int b = dataSegment[1+position] & 0xFF;
                     int c = dataSegment[2+position] & 0xFF;
@@ -95,14 +79,45 @@ void UdpClient::readStream()
                     int recontructedHexa = (d<<24) | (c<<16) | (b<<8) | a;
 
                     // Use union to get ieee 754 single precision float
-                    integerFloatUnion.num = recontructedHexa;
-                    float value = integerFloatUnion.fnum;
+                    ieee754Union.intValue = recontructedHexa;
+                    float value = ieee754Union.floatValue;
 
                     // Write value in datastore
                     m_dataStore->writeData(i.value(), value);
-//                    qDebug() << i.value() << " : " << value;
                 }
+            }
+        }
+    }
+    else if (buffer[0] == 'D' && buffer[1] == 'R' && buffer[2] == 'E' && buffer[3] == 'F') // Handle XPlane DREF
+    {
+        char dataSegment[500];
+        memcpy( dataSegment, &buffer[9], 500 );
 
+        QString dataRef(dataSegment);
+
+        // Iterate through required dataRefs in current segment
+        QMapIterator<QString, QString> i(m_dataRefs);
+
+        while (i.hasNext()) {
+            i.next();
+
+            if (i.key() == dataRef) {
+                // Convert parts to integers with "Bitwise And"
+                int a = buffer[5] & 0xFF;
+                int b = buffer[6] & 0xFF;
+                int c = buffer[7] & 0xFF;
+                int d = buffer[8] & 0xFF;
+
+                // Rebuild the big endian value with "Bitwise Or"
+                int recontructedHexa = (d<<24) | (c<<16) | (b<<8) | a;
+
+                // Use union to get ieee 754 single precision float
+                ieee754Union.intValue = recontructedHexa;
+                float value = ieee754Union.floatValue;
+
+                // Write value in datastore
+                qDebug() << i.value() << " : " << value;
+                m_dataStore->writeData(i.value(), value);
             }
         }
     }

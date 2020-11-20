@@ -99,7 +99,7 @@ void QtSimPanel::saveSettings()
 void QtSimPanel::refreshPanelValues()
 {
     m_flightData.clear();
-    m_flightData.insert("heading", m_dataStore->readData("mag_heading"));
+    m_flightData.insert("vacuum_heading", m_dataStore->readData("vacuum_heading"));
     m_flightData.insert("pitch", m_dataStore->readData("pitch"));
     m_flightData.insert("roll", m_dataStore->readData("roll"));
     m_flightData.insert("altitude_ind", m_dataStore->readData("altitude_ind"));

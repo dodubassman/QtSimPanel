@@ -5,11 +5,11 @@
 #include <QUdpSocket>
 #include "datastore.h"
 
-class UdpClient : public QObject
+class XplaneUdpClient : public QObject
 {
     Q_OBJECT
 public:
-    UdpClient(DataStore *dataStore, QObject *parent = nullptr);
+    XplaneUdpClient(DataStore *dataStore, QObject *parent = nullptr);
 
 signals:
 
@@ -20,6 +20,7 @@ private:
     QUdpSocket *m_socket;
     DataStore *m_dataStore;
     QMap<int, QMap<int, QString>> m_dataIndex;
+    QMap<QString, QString> m_dataRefs;
 };
 
 #endif // UDPCLIENT_H
