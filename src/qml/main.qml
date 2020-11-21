@@ -6,7 +6,7 @@ import "gauges"
 
 Window {
 
-    //visibility: Window.FullScreen
+    visibility: Window.FullScreen
     color: "#000000"
     visible: true
     width: 800

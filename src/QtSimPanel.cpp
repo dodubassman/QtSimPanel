@@ -35,7 +35,7 @@ void QtSimPanel::startApp()
 
     QTimer *ticker = new QTimer(this);
     connect(ticker, SIGNAL(timeout()), this, SLOT(refreshPanelValues()));
-    ticker->start(300);
+    ticker->start(100);
 
     exec();
 }
@@ -107,6 +107,13 @@ void QtSimPanel::refreshPanelValues()
     m_flightData.insert("kt_ias", m_dataStore->readData("kt_ias"));
     m_flightData.insert("vertical_speed", m_dataStore->readData("vertical_speed"));
     m_flightData.insert("inhg_baro_pressure", m_dataStore->readData("inhg_baro_pressure"));
+
+    m_flightData.insert("nav1_course", m_dataStore->readData("nav1_course"));
+    m_flightData.insert("nav1_from_to_status", m_dataStore->readData("nav1_from_to_status"));
+    m_flightData.insert("nav1_glideslope_status", m_dataStore->readData("nav1_glideslope_status"));
+
+    m_flightData.insert("nav1_course_deviation", m_dataStore->readData("nav1_course_deviation"));
+    m_flightData.insert("nav1_glideslope_deviation", m_dataStore->readData("nav1_glideslope_deviation"));
 
     emit flightDataChanged();
 }

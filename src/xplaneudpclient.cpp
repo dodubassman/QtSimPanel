@@ -15,6 +15,12 @@ XplaneUdpClient::XplaneUdpClient(DataStore *dataStore, QObject *parent) : QObjec
     // Exple:
     // m_dataRefs["sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot"] = "inhg_baro_pressure";
 
+    m_dataRefs["sim/cockpit2/radios/actuators/nav1_course_deg_mag_pilot"] = "nav1_course";
+    m_dataRefs["sim/cockpit2/radios/indicators/nav1_flag_from_to_pilot"] = "nav1_from_to_status";
+    m_dataRefs["sim/cockpit2/radios/indicators/nav1_flag_glideslope_mech"] = "nav1_glideslope_status";
+    m_dataRefs["sim/cockpit2/radios/indicators/nav1_hdef_dots_pilot"] = "nav1_course_deviation";
+    m_dataRefs["sim/cockpit2/radios/indicators/nav1_vdef_dots_pilot"] = "nav1_glideslope_deviation";
+
     m_dataRefs["sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot"] = "inhg_baro_pressure";
     m_dataRefs["sim/cockpit2/gauges/indicators/altitude_ft_pilot"] = "altitude_ind";
     m_dataRefs["sim/cockpit2/gauges/indicators/sideslip_degrees"] = "sideslip";
@@ -116,7 +122,7 @@ void XplaneUdpClient::readStream()
                 float value = ieee754Union.floatValue;
 
                 // Write value in datastore
-                qDebug() << i.value() << " : " << value;
+                //qDebug() << i.value() << " : " << value;
                 m_dataStore->writeData(i.value(), value);
             }
         }

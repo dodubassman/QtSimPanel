@@ -30,5 +30,18 @@
         <file>assets/heading_indicator/heading_cog.png</file>
         <file>assets/heading_indicator/dg_disc.png</file>
         <file>assets/vertical_speed/verticalspeed-dial.png</file>
+        <file>assets/course_deviation_indicator/cap.png</file>
+        <file>assets/course_deviation_indicator/from.png</file>
+        <file>assets/course_deviation_indicator/glide.png</file>
+        <file>assets/course_deviation_indicator/graduations.png</file>
+        <file>assets/course_deviation_indicator/gs_marker.png</file>
+        <file>assets/course_deviation_indicator/gs_mask.png</file>
+        <file>assets/course_deviation_indicator/localizer.png</file>
+        <file>assets/course_deviation_indicator/masks.png</file>
+        <file>assets/course_deviation_indicator/nav_mask.png</file>
+        <file>assets/course_deviation_indicator/nav.png</file>
+        <file>assets/course_deviation_indicator/to_marker.png</file>
+        <file>assets/course_deviation_indicator/to.png</file>
+        <file>qml/gauges/CourseDeviationIndicator.qml</file>
     </qresource>
 </RCC>

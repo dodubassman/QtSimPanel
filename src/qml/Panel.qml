@@ -30,6 +30,16 @@ Item {
         pressure: qSimPanel.flightData.inhg_baro_pressure ? qSimPanel.flightData.inhg_baro_pressure : 29.91
     }
 
+    CourseDeviationIndicator {
+        id: cdi
+        x: 870
+        course: qSimPanel.flightData.nav1_course ? qSimPanel.flightData.nav1_course: cdi.course
+        fromToStatus: qSimPanel.flightData.nav1_from_to_status
+        glideStatus:  qSimPanel.flightData.nav1_glideslope_status
+        courseDeviation: qSimPanel.flightData.nav1_course_deviation ? qSimPanel.flightData.nav1_course_deviation : cdi.courseDeviation
+        glideslopeDeviation: qSimPanel.flightData.nav1_glideslope_deviation ? qSimPanel.flightData.nav1_glideslope_deviation : cdi.glideslopeDeviation
+    }
+
     TurnCoordinator {
         id: turnCoordinator
         y: 302
