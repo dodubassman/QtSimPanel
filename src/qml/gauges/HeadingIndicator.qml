@@ -21,8 +21,8 @@ Item {
     }
 
     Image {
-        id: slipBall
-        source: "../../assets/heading_indicator/airplane_shape.png"
+        id: airplane
+        source: "../../assets/heading_indicator/airplane_shape2.png"
         anchors.fill: parent
     }
 }

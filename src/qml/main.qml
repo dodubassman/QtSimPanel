@@ -47,7 +47,7 @@ Esc     Quit OpenSimPanel
         }
     }
 
-    Panel {
+    Item {
         id: panel
         transform: Scale {
             yScale: qSimPanel.panelScale
@@ -55,6 +55,9 @@ Esc     Quit OpenSimPanel
         }
         x: qSimPanel.panelPositionX
         y: qSimPanel.panelPositionY
+        Loader {
+            source: "panels/"+ qSimPanel.activeQmlPanel +".qml"
+        }
     }
 
 }
