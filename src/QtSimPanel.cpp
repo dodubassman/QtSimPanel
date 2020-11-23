@@ -84,11 +84,13 @@ void QtSimPanel::loadSettings()
         m_i_panelPositionY = m_settings.value("panel/y").toInt();
         m_d_panelScale = m_settings.value("panel/scale").toDouble();
         m_b_areInstructionsVisibile = m_settings.value("panel/instructions").toBool();
+        m_s_activeQmlPanel = m_settings.value("panel/type").toString();
     }
 }
 
 void QtSimPanel::saveSettings()
 {
+    m_settings.setValue("panel/type", m_s_activeQmlPanel);
     m_settings.setValue("panel/x", m_i_panelPositionX);
     m_settings.setValue("panel/y", m_i_panelPositionY);
     m_settings.setValue("panel/scale", m_d_panelScale);

@@ -9,7 +9,6 @@
         <file>assets/airspeed_indicator/needle.svg</file>
         <file>qml/gauges/Airspeed.qml</file>
         <file>qml/gauges/TurnCoordinator.qml</file>
-        <file>qml/Panel.qml</file>
         <file>assets/altimeter/1000ft_needle.png</file>
         <file>assets/altimeter/100ft_needle.png</file>
         <file>assets/altimeter/10000ft_needle.png</file>
@@ -43,5 +42,8 @@
         <file>assets/course_deviation_indicator/to_marker.png</file>
         <file>assets/course_deviation_indicator/to.png</file>
         <file>qml/gauges/CourseDeviationIndicator.qml</file>
+        <file>assets/heading_indicator/airplane_shape2.png</file>
+        <file>qml/panels/dr400.qml</file>
+        <file>qml/panels/simple_cdi.qml</file>
     </qresource>
 </RCC>

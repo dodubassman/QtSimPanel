@@ -33,10 +33,68 @@ XplaneUdpClient::XplaneUdpClient(DataStore *dataStore, QObject *parent) : QObjec
     m_socket = new QUdpSocket(this);
     m_socket->bind(port);
     connect(m_socket, SIGNAL(readyRead()), this, SLOT(readStream()));
+
+
+    QTimer *m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(tryRegisterDataRefs()));
+    m_timer->start(2000);
+}
+
+XplaneUdpClient::~XplaneUdpClient() {
+    // Unregister (frequence = 0Hz)
+    QMapIterator<QString, QString> i(m_dataRefs);
+    uint32_t idCpt = 0;
+
+    while (i.hasNext()) {
+        i.next();
+        // Frequency to zero to unsubscribe
+        registerDataRef(0, idCpt, i.key());
+        idCpt++;
+    }
+}
+
+
+void XplaneUdpClient::tryRegisterDataRefs()
+{
+
+    // Iterate through required dataRefs
+    QMapIterator<QString, QString> i(m_dataRefs);
+    uint32_t idCpt = 0;
+
+    while (i.hasNext()) {
+        i.next();
+        registerDataRef(5, idCpt, i.key());
+        idCpt++;
+    }
+
+}
+
+void XplaneUdpClient::registerDataRef(uint32_t frequency, uint32_t idRef, QString dataRef)
+{
+
+    if (!m_b_isConnected or frequency == 0) {
+
+        char name[5] = "RREF";
+        uint8_t zero = 0;
+
+        QByteArray data;
+
+        data.append(name);
+        data = data.leftJustified(data.length() + 1, zero);
+        data.append(frequency);
+        data = data.leftJustified(data.length() + 6, zero);
+        data.append(idRef);
+        data.append(dataRef);
+        data = data.leftJustified(data.length() + (400 - dataRef.length()), zero);
+
+        m_socket->writeDatagram(data, QHostAddress("192.168.5.139"), 49000);
+
+    }
 }
 
 void XplaneUdpClient::readStream()
 {
+
     const qint64 maxLength = 65536;
     char buffer[maxLength];
 
@@ -53,7 +111,6 @@ void XplaneUdpClient::readStream()
     {
         // Segments of data
         unsigned nbSegs = (datagramSize-5)/36;
-
 
         // For each xplane dataset segment
         for (unsigned i = 0; i < nbSegs; i++)
@@ -91,6 +148,7 @@ void XplaneUdpClient::readStream()
                     // Write value in datastore
                     m_dataStore->writeData(i.value(), value);
                 }
+                m_timer->stop();
             }
         }
     }
@@ -122,9 +180,56 @@ void XplaneUdpClient::readStream()
                 float value = ieee754Union.floatValue;
 
                 // Write value in datastore
-                //qDebug() << i.value() << " : " << value;
                 m_dataStore->writeData(i.value(), value);
             }
         }
+    }
+    else if (buffer[0] == 'R' && buffer[1] == 'R' && buffer[2] == 'E' && buffer[3] == 'F') // Handle XPlane DREF
+    {
+
+        // Segments of data
+        unsigned nbDataRefs = (datagramSize-5)/8;
+
+        char data[datagramSize-5];
+        memcpy( data, &buffer[5], datagramSize-5 );
+
+        // For each xplane dataRef
+        for (unsigned j = 0; j < nbDataRefs; j++)
+        {
+            int position = j*8;
+            int idRef = buffer[position + 8];
+
+            // Parse received Data
+            int a = buffer[position + 9] & 0xFF;
+            int b = buffer[position + 10] & 0xFF;
+            int c = buffer[position + 11] & 0xFF;
+            int d = buffer[position + 12] & 0xFF;
+
+            // Rebuild the big endian value with "Bitwise Or"
+            int recontructedHexa = (d<<24) | (c<<16) | (b<<8) | a;
+
+            // Use union to get ieee 754 single precision float
+            ieee754Union.intValue = recontructedHexa;
+            float value = ieee754Union.floatValue;
+
+            int idCpt = 0;
+
+            // Loop through Requested value to match Ids.
+            QMapIterator<QString, QString> i(m_dataRefs);
+            while (i.hasNext()) {
+                i.next();
+
+                if (idCpt == idRef)
+                {
+                    qDebug() << i.value() << " : " << value;
+                    m_dataStore->writeData(i.value(), value);
+                }
+
+                idCpt++;
+            }
+
+        }
+        m_b_isConnected = true;
+
     }
 }
