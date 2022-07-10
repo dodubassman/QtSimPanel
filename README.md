@@ -11,3 +11,15 @@ Todo list :
 - [ ] Provide compiled files for Rapberry, Mac and windows (linux 64 only at the moment0
 
 QtSimPanel is writen in C++ / QML using Qt5.
+
+
+## Build
+
+With Cmake:
+
+```
+$ mkdir build
+$ cd build/
+$ cmake ../
+$ make
+```
