@@ -2,7 +2,7 @@
 #define KEYRECEIVER_H
 
 #include <QObject>
-#include <QtSimPanel.h>
+#include "QtSimPanel.h"
 
 class KeyReceiver : public QObject
 {

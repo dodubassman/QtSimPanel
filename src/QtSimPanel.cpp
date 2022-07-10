@@ -1,10 +1,10 @@
-#include "QtSimPanel.h"
-#include "xplaneudpclient.h"
-#include <KeyReceiver.h>
 #include <QQmlContext>
 #include <QDebug>
 #include <QDir>
 #include <QTimer>
+#include "QtSimPanel.h"
+#include "xplaneudpclient.h"
+#include "KeyReceiver.h"
 
 QtSimPanel::QtSimPanel(int argc, char** argv): QGuiApplication(argc, argv),
    m_settings(QDir::currentPath()+"/settings.ini", QSettings::IniFormat)
