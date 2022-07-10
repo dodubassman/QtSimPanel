@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QtSimPanel.h>
+#include "QtSimPanel.h"
 
 int main(int argc, char *argv[])
 {

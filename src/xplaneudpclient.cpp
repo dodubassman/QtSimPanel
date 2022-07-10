@@ -84,7 +84,7 @@ void XplaneUdpClient::registerDataRef(uint32_t frequency, uint32_t idRef, QStrin
         data.append(frequency);
         data = data.leftJustified(data.length() + 6, zero);
         data.append(idRef);
-        data.append(dataRef);
+        data.append(dataRef.toLocal8Bit());
         data = data.leftJustified(data.length() + (400 - dataRef.length()), zero);
 
         m_socket->writeDatagram(data, QHostAddress("192.168.5.139"), 49000);

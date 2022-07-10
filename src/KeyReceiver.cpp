@@ -1,7 +1,7 @@
-#include "KeyReceiver.h"
-#include <QtSimPanel.h>
 #include <QKeyEvent>
 #include <QGuiApplication>
+#include "KeyReceiver.h"
+#include "QtSimPanel.h"
 
 KeyReceiver::KeyReceiver(QtSimPanel* qtSimPanel)
 {
