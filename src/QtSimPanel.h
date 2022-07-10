@@ -5,7 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QGuiApplication>
 #include <QSettings>
-#include <datastore.h>
+#include "datastore.h"
 
 class QtSimPanel : public QGuiApplication
 {

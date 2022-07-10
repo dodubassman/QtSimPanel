@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "xplaneudpclient.h"
 
 XplaneUdpClient::XplaneUdpClient(DataStore *dataStore, QObject *parent) : QObject(parent)
@@ -107,7 +109,7 @@ void XplaneUdpClient::readStream()
 
     union { int intValue; float floatValue; } ieee754Union;
 
-    if (buffer[0] == 'D' && buffer[1] == 'A' && buffer[2] == 'T' && buffer[3] == 'A') // Handle XPlane DATA
+    if (strncmp(buffer, "DATA", 4) == 0)
     {
         // Segments of data
         unsigned nbSegs = (datagramSize-5)/36;
@@ -152,7 +154,7 @@ void XplaneUdpClient::readStream()
             }
         }
     }
-    else if (buffer[0] == 'D' && buffer[1] == 'R' && buffer[2] == 'E' && buffer[3] == 'F') // Handle XPlane DREF
+    else if (strncmp(buffer, "DREF", 4) == 0)
     {
         char dataSegment[500];
         memcpy( dataSegment, &buffer[9], 500 );
@@ -184,7 +186,7 @@ void XplaneUdpClient::readStream()
             }
         }
     }
-    else if (buffer[0] == 'R' && buffer[1] == 'R' && buffer[2] == 'E' && buffer[3] == 'F') // Handle XPlane DREF
+    else if (strncmp(buffer, "RREF", 4) == 0)
     {
 
         // Segments of data
